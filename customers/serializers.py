@@ -36,6 +36,7 @@ class SignUpSerializer(serializers.ModelSerializer):
 
 class EmailVerificationSerializer(serializers.ModelSerializer):
     token = serializers.CharField(max_length=555)
+
     class Meta:
         model = get_user_model()
         fields = ['token']

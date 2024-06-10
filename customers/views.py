@@ -10,7 +10,7 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.urls import reverse
 import jwt
 from .utils import Util
-from customers.serializers import UserSerializer, SignUpSerializer
+from customers.serializers import UserSerializer, SignUpSerializer, EmailVerificationSerializer
 from customers.models import User
 
 
@@ -48,6 +48,29 @@ class SignUp(GenericAPIView):
         Util.send_email(data=data)
 
         return response.Response({'user_data': user, 'access_token': str(tokens)}, status=status.HTTP_201_CREATED)
+
+
+class VerifyEmail(GenericAPIView):
+    serializer_class = EmailVerificationSerializer
+
+    token_param_config = openapi.Parameter(
+        'token', in_=openapi.IN_QUERY, description='Description', type=openapi.TYPE_STRING)
+
+    @swagger_auto_schema(manual_parameters=[token_param_config])
+    def get(self, request):
+        token = request.GET.get('token')
+        try:
+            payload = jwt.decode(token, options={"verify_signature": False})
+            print(payload)
+            user = User.objects.get(id=payload['user_id'])
+            if not user.is_verified:
+                user.is_verified = True
+                user.save()
+            return response.Response({'email': 'Successfully activated'}, status=status.HTTP_200_OK)
+        except jwt.ExpiredSignatureError as identifier:
+            return response.Response({'error': 'Activation Expired'}, status=status.HTTP_400_BAD_REQUEST)
+        except jwt.exceptions.DecodeError as identifier:
+            return response.Response({'error': 'Invalid token'}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class ManageUserView(generics.RetrieveUpdateAPIView):
