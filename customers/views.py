@@ -12,7 +12,7 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.urls import reverse
 import jwt
 from .utils import Util
-from customers.serializers import UserSerializer, SignUpSerializer, EmailVerificationSerializer
+from customers.serializers import UserSerializer, EmailVerificationSerializer
 from customers.models import User
 
 
@@ -26,7 +26,7 @@ class LoginUserView(ObtainAuthToken):
 
 
 class SignUp(GenericAPIView):
-    serializer_class = SignUpSerializer
+    serializer_class = UserSerializer
 
     def post(self, request):
         data = request.data
@@ -40,9 +40,9 @@ class SignUp(GenericAPIView):
         tokens = RefreshToken.for_user(user_email).access_token
         # send email for user verification
         current_site = get_current_site(request).domain
-        relative_link = reverse('email-verify')
+        relative_link = reverse('customers:email-verify')
         absurl = 'http://' + current_site + relative_link + "?token=" + str(tokens)
-        email_body = 'Hi ' + user['username'] + \
+        email_body = 'Hi ' + user['email'] + \
                      ' Use the link below to verify your email \n' + absurl
         data = {'email_body': email_body, 'to_email': user['email'],
                 'email_subject': 'Verify your email'}
