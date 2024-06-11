@@ -5,7 +5,7 @@ from rest_framework import serializers
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
-        fields = ('id', 'email', 'first_name', 'last_name', 'password',)
+        fields = ('id', 'email', 'first_name', 'last_name', 'password', 'tokens')
         read_only_fields = ('id', 'is_staff')
         extra_kwargs = {
             'password': {'write_only': True, 'min_length': 5}
@@ -21,3 +21,11 @@ class UserSerializer(serializers.ModelSerializer):
             user.set_password(password)
             user.save()
         return user
+
+
+class EmailVerificationSerializer(serializers.ModelSerializer):
+    token = serializers.CharField(max_length=555)
+
+    class Meta:
+        model = get_user_model()
+        fields = ['token']
