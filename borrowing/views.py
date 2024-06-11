@@ -15,5 +15,11 @@ class BorrowViewSet(viewsets.ModelViewSet):
             return BorrowingListSerializer
         return BorrowingSerializer
 
+    def get_queryset(self):
+        queryset = self.queryset.select_related("book", "user")
+        if self.action in ("list", "retrieve"):
+            queryset = queryset.filter(user=self.request.user)
+        return queryset
+
     def perform_create(self, serializer):
         return serializer.save(user=self.request.user)

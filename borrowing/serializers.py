@@ -8,7 +8,14 @@ from borrowing.models import Borrowing
 class BorrowingListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Borrowing
-        fields = '__all__'
+        fields = (
+            'id',
+            'borrow_date',
+            'expected_return_date',
+            'actual_return_date',
+            'book',
+            'user',
+        )
 
 
 class BorrowingSerializer(serializers.ModelSerializer):

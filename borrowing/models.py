@@ -9,7 +9,7 @@ from library_project.settings import AUTH_USER_MODEL
 class Borrowing(models.Model):
     borrow_date = models.DateField(auto_now_add=True)
     expected_return_date = models.DateField(default=date.today() + timedelta(days=7))
-    actual_return_date = models.DateField()
+    actual_return_date = models.DateField(null=True, blank=True)
     book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name="borrowings")
     user = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="borrowings")
 
@@ -29,7 +29,7 @@ class Borrowing(models.Model):
             raise raise_error("Expected borrowing date is in the past")
 
     def clean(self):
-        Borrowing.validate_borrowing(self.borrow_date, self.expected_return_date, ValueError)
+        Borrowing.validate_borrowing(self.expected_return_date, ValueError)
 
     def save(
             self,
