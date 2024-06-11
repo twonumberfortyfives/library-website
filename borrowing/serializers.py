@@ -1,7 +1,9 @@
 import datetime
 
 from rest_framework import serializers
+from rest_framework.validators import UniqueTogetherValidator
 
+from customers.models import User
 from borrowing.models import Borrowing
 
 
@@ -19,13 +21,16 @@ class BorrowingListSerializer(serializers.ModelSerializer):
 
 
 class BorrowingSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Borrowing
-        fields = ("id", "expected_return_date", "book")
+        fields = ("id", "expected_return_date", "book", )
 
     def validate(self, attrs):
-        Borrowing.validate_borrowing(
-            expected_return_date=attrs["expected_return_date"],
-            raise_error=serializers.ValidationError,
+        expected_return_date = attrs.get("expected_return_date")
+        if expected_return_date:
+            Borrowing.validate_borrowing(
+                expected_return_date=expected_return_date,
+                raise_error=serializers.ValidationError,
             )
         return attrs

@@ -1,6 +1,7 @@
 from datetime import date, timedelta
 
 from django.db import models
+from django.db.models import UniqueConstraint
 
 from books.models import Book
 from library_project.settings import AUTH_USER_MODEL
@@ -12,6 +13,11 @@ class Borrowing(models.Model):
     actual_return_date = models.DateField(null=True, blank=True)
     book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name="borrowings")
     user = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="borrowings")
+
+    class Meta:
+        constraints = [
+            UniqueConstraint(fields=['book', 'user'], name='unique_borrowing')
+        ]
 
     def __str__(self):
         return (f"(borrow date: {self.borrow_date}; "
