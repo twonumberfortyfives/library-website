@@ -15,11 +15,6 @@ class Borrowing(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name="borrowings")
     user = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="borrowings")
 
-    class Meta:
-        constraints = [
-            UniqueConstraint(fields=['book', 'user'], name='unique_borrowing')
-        ]
-
     def __str__(self):
         return (f"(borrow date: {self.borrow_date}; "
                 f"expiration date: {self.actual_return_date}; "
@@ -47,7 +42,7 @@ class Borrowing(models.Model):
     ):
         self.clean_fields()
         self.clean()
-        if not self.pk:
+        if not self.pk:  # checking if the object has been created
             if self.book.inventory < 1:
                 raise ValidationError("Inventory is empty.")
             self.book.inventory -= 1
@@ -58,8 +53,3 @@ class Borrowing(models.Model):
             using,
             update_fields
         )
-
-    def delete(self, *args, **kwargs):
-        self.book.inventory += 1
-        self.book.save()
-        super(Borrowing, self).delete(*args, **kwargs)
