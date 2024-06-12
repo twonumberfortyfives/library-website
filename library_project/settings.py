@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'customers',
     'books',
     'borrowing',
+    'payment',
     'rest_framework',
     'rest_framework_simplejwt',
 
