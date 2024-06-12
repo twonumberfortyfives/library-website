@@ -1,9 +1,6 @@
-import datetime
 
 from rest_framework import serializers
-from rest_framework.validators import UniqueTogetherValidator
 
-from customers.models import User
 from borrowing.models import Borrowing
 
 
@@ -34,3 +31,10 @@ class BorrowingSerializer(serializers.ModelSerializer):
                 raise_error=serializers.ValidationError,
             )
         return attrs
+
+    def create(self, validated_data):
+        if int(validated_data.get("book").inventory) <= 0:
+            raise serializers.ValidationError("Inventory is empty")
+        print(validated_data.get("book").inventory)
+        borrowing = Borrowing.objects.create(**validated_data)
+        return borrowing

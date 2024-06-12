@@ -2,6 +2,7 @@ from datetime import date, timedelta
 
 from django.db import models
 from django.db.models import UniqueConstraint
+from rest_framework.exceptions import ValidationError
 
 from books.models import Book
 from library_project.settings import AUTH_USER_MODEL
@@ -46,9 +47,19 @@ class Borrowing(models.Model):
     ):
         self.clean_fields()
         self.clean()
+        if not self.pk:
+            if self.book.inventory < 1:
+                raise ValidationError("Inventory is empty.")
+            self.book.inventory -= 1
+            self.book.save()
         return super(Borrowing, self).save(
             force_insert,
             force_update,
             using,
             update_fields
         )
+
+    def delete(self, *args, **kwargs):
+        self.book.inventory += 1
+        self.book.save()
+        super(Borrowing, self).delete(*args, **kwargs)

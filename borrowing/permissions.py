@@ -6,6 +6,7 @@ class IsAuthenticatedEmailVerifiedReadOnlyAdminAll(BasePermission):
         if request.user and request.user.is_authenticated and request.user.is_verified == 1 and request.method in (
                 "GET",
                 "POST",
+                "DELETE"
         ):
             return True
         elif request.user.is_authenticated and request.user.is_staff:
