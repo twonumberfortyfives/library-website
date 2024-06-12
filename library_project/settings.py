@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'drf_yasg',
     'customers',
     'books',
+    'borrowing',
     'rest_framework',
     'rest_framework_simplejwt',
 

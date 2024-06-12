@@ -38,4 +38,5 @@ urlpatterns = [
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('api/user/', include('customers.urls', namespace='customers')),
     path('api/library-books/', include('books.urls', namespace='books')),
+    path('api/library-borrowings/', include('borrowing.urls', namespace='borrowing')),
 ]
