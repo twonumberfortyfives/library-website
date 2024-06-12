@@ -39,4 +39,5 @@ urlpatterns = [
     path('api/user/', include('customers.urls', namespace='customers')),
     path('api/library-books/', include('books.urls', namespace='books')),
     path('api/library-borrowings/', include('borrowing.urls', namespace='borrowing')),
+    path("__debug__/", include("debug_toolbar.urls")),
 ]
