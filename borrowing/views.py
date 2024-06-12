@@ -20,9 +20,10 @@ class BorrowViewSet(viewsets.ModelViewSet):
         return BorrowingSerializer
 
     def get_queryset(self):
-        queryset = self.queryset.select_related("book", "user")
-        if self.action in ("list", "retrieve"):
-            queryset = queryset.filter(user=self.request.user)
+        queryset = self.queryset.select_related("book", "user").filter(user=self.request.user)
+        expected_return_date = self.request.query_params.get("expected_return_date", None)
+        if expected_return_date:
+            queryset = queryset.filter(expected_return_date=expected_return_date)
         return queryset
 
     def perform_create(self, serializer):
