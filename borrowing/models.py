@@ -1,7 +1,6 @@
 from datetime import date, timedelta
 
 from django.db import models
-from django.db.models import UniqueConstraint
 from rest_framework.exceptions import ValidationError
 
 from books.models import Book
