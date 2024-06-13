@@ -14,7 +14,7 @@ router = routers.DefaultRouter()
 urlpatterns = [
     path("", include(router.urls)),
     path("create-payment/", CreatePaymentView.as_view(), name="create_payment"),
-    path("all-payments/", PaymentListView.as_view(), name="all_payments"),
-    path("payments/success/", StripeSuccessView.as_view(), name="stripe-success"),
-    path("payments/cancel/", StripeCancelView.as_view(), name="stripe-cancel"),
+    path("all_payments", PaymentListView.as_view(), name="all_payments"),
+    path("success/", StripeSuccessView.as_view(), name="stripe-success"),
+    path("cancel/", StripeCancelView.as_view(), name="stripe-cancel"),
 ]
