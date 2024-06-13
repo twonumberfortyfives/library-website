@@ -1,4 +1,3 @@
-
 from rest_framework import serializers
 
 from books.models import Book
@@ -8,7 +7,7 @@ from borrowing.models import Borrowing
 class BookForBorrowingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Book
-        fields = ('id', 'title', 'author', 'daily_fee')
+        fields = ("id", "title", "author", "daily_fee")
 
 
 class BorrowingListSerializer(serializers.ModelSerializer):
@@ -17,11 +16,11 @@ class BorrowingListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Borrowing
         fields = (
-            'id',
-            'borrow_date',
-            'expected_return_date',
-            'actual_return_date',
-            'book',
+            "id",
+            "borrow_date",
+            "expected_return_date",
+            "actual_return_date",
+            "book",
         )
 
 
@@ -29,7 +28,11 @@ class BorrowingSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Borrowing
-        fields = ("id", "expected_return_date", "book", )
+        fields = (
+            "id",
+            "expected_return_date",
+            "book",
+        )
 
     def validate(self, attrs):
         expected_return_date = attrs.get("expected_return_date")

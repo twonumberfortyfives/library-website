@@ -5,12 +5,12 @@ from borrowing.views import BorrowViewSet, return_book
 
 router = routers.DefaultRouter()
 
-router.register('borrowings', BorrowViewSet)
+router.register("borrowings", BorrowViewSet)
 
-app_name = 'borrowing'
+app_name = "borrowing"
 
 
 urlpatterns = [
-    path('', include(router.urls)),
-    path('borrowings/<int:pk>/return', return_book, name='return-book'),
+    path("", include(router.urls)),
+    path("borrowings/<int:pk>/return", return_book, name="return-book"),
 ]

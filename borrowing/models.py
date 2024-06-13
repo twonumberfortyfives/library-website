@@ -13,12 +13,16 @@ class Borrowing(models.Model):
     expected_return_date = models.DateField(default=date.today() + timedelta(days=7))
     actual_return_date = models.DateField(null=True, blank=True)
     book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name="borrowings")
-    user = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="borrowings")
+    user = models.ForeignKey(
+        AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="borrowings"
+    )
 
     def __str__(self):
-        return (f"(borrow date: {self.borrow_date}; "
-                f"expiration date: {self.actual_return_date}; "
-                f"customer: {self.user})")
+        return (
+            f"(borrow date: {self.borrow_date}; "
+            f"expiration date: {self.actual_return_date}; "
+            f"customer: {self.user})"
+        )
 
     @staticmethod
     def validate_borrowing(expected_return_date, raise_error):
@@ -34,11 +38,11 @@ class Borrowing(models.Model):
         Borrowing.validate_borrowing(self.expected_return_date, ValueError)
 
     def save(
-            self,
-            force_insert=False,
-            force_update=False,
-            using=None,
-            update_fields=None,
+        self,
+        force_insert=False,
+        force_update=False,
+        using=None,
+        update_fields=None,
     ):
         self.clean_fields()
         self.clean()
@@ -48,8 +52,5 @@ class Borrowing(models.Model):
             self.book.inventory -= 1
             self.book.save()
         return super(Borrowing, self).save(
-            force_insert,
-            force_update,
-            using,
-            update_fields
+            force_insert, force_update, using, update_fields
         )
