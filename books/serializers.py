@@ -7,11 +7,10 @@ from books.models import Book
 class BookListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Book
-        fields = ('id', 'title', 'author', 'cover', 'daily_fee', 'inventory')
+        fields = ("id", "title", "author", "cover", "daily_fee", "inventory")
         validators = [
             UniqueTogetherValidator(
-                queryset=Book.objects.all(),
-                fields=['title', 'author']
+                queryset=Book.objects.all(), fields=["title", "author"]
             )
         ]
 
@@ -19,10 +18,9 @@ class BookListSerializer(serializers.ModelSerializer):
 class BookSerializer(serializers.ModelSerializer):
     class Meta:
         model = Book
-        fields = '__all__'
+        fields = "__all__"
         validators = [
             UniqueTogetherValidator(
-                queryset=Book.objects.all(),
-                fields=['title', 'author']
+                queryset=Book.objects.all(), fields=["title", "author"]
             )
         ]

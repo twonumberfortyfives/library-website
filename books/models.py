@@ -3,10 +3,7 @@ from django.db.models import UniqueConstraint
 
 
 class Book(models.Model):
-    COVER_CHOICES = (
-        ("hard", "HARD"),
-        ("soft", "SOFT")
-    )
+    COVER_CHOICES = (("hard", "HARD"), ("soft", "SOFT"))
     title = models.CharField(max_length=255)
     author = models.CharField(max_length=255)
     cover = models.CharField(max_length=255, choices=COVER_CHOICES)
@@ -14,7 +11,5 @@ class Book(models.Model):
     inventory = models.PositiveIntegerField(default=1)
 
     class Meta:
-        ordering = ['title']
-        constraints = [
-            UniqueConstraint(fields=['title', 'author'], name='unique_book')
-        ]
+        ordering = ["title"]
+        constraints = [UniqueConstraint(fields=["title", "author"], name="unique_book")]
