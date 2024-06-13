@@ -50,8 +50,10 @@ INSTALLED_APPS = [
     "customers",
     "books",
     "borrowing",
+    "payment",
     "rest_framework",
     "rest_framework_simplejwt",
+
 ]
 
 MIDDLEWARE = [
@@ -159,3 +161,6 @@ SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=10000),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=100),
 }
+
+STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY")
+STRIPE_PUBLISHABLE_KEY = os.getenv("STRIPE_PUBLISHABLE_KEY")

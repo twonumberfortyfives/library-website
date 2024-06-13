@@ -36,13 +36,10 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path(
-        "swagger/",
-        schema_view.with_ui("swagger", cache_timeout=0),
-        name="schema-swagger-ui",
-    ),
+    path("swagger/", schema_view.with_ui("swagger", cache_timeout=0), name="schema-swagger-ui"),
     path("api/user/", include("customers.urls", namespace="customers")),
     path("api/library-books/", include("books.urls", namespace="books")),
     path("api/library-borrowings/", include("borrowing.urls", namespace="borrowing")),
+    path("api/library-payments/", include("payment.urls", namespace="payment")),
     path("__debug__/", include("debug_toolbar.urls")),
 ]
