@@ -3,6 +3,7 @@ from decimal import Decimal
 from django.db import models
 
 from borrowing.models import Borrowing
+from customers.models import User
 
 
 class Payment(models.Model):
@@ -19,6 +20,7 @@ class Payment(models.Model):
     borrowing = models.ForeignKey(Borrowing, on_delete=models.CASCADE, related_name="payments")
     session_url = models.URLField(max_length=10000)
     session_id = models.CharField(max_length=10000)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="payments", default=None, null=True)
 
     @property
     def money_to_pay(self):
