@@ -1,12 +1,10 @@
 from decimal import Decimal
 
 import stripe
-from django.db import transaction
 from django.shortcuts import redirect
 from django.urls import reverse
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework import status
 
 from borrowing.models import Borrowing
 from library_project import settings
