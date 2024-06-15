@@ -17,7 +17,7 @@ class Payment(models.Model):
     borrowing = models.ForeignKey(
         Borrowing, on_delete=models.CASCADE, related_name="payments"
     )
-    session_url = models.URLField(max_length=10000)
+    session_url = models.CharField(max_length=10000)
     session_id = models.CharField(max_length=10000)
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="payments", default=None, null=True
