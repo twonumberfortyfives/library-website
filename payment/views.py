@@ -27,7 +27,7 @@ def create_stripe_session(amount, currency="usd"):
                         "product_data": {
                             "name": "Payment for Borrowing",
                         },
-                        "unit_amount": int(amount * 100),  # Amount in cents
+                        "unit_amount": int(amount * 100),
                     },
                     "quantity": 1,
                 }
@@ -39,9 +39,8 @@ def create_stripe_session(amount, currency="usd"):
         return session.url, session.id
 
     except stripe.error.StripeError as e:
-        # Handle Stripe errors here
         print(f"Stripe Error: {e}")
-        raise  # Re-raise the exception for debugging or logging purposes
+        raise
 
 
 class CreatePaymentView(APIView):
@@ -51,9 +50,8 @@ class CreatePaymentView(APIView):
         if self.request.method == "POST":
             borrowing_id = self.request.data.get(
                 "borrowing"
-            )  # Assuming borrowing is sent as an ID
+            )
 
-            # Retrieve the Borrowing object
             borrowing = Borrowing.objects.get(id=borrowing_id)
 
             if borrowing.actual_return_date:
